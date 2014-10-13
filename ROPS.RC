@@ -1,0 +1,176 @@
+
+/* OS/2 Warp Resource Script File - Created by Prominare Designer */
+
+#define INCL_WINSYS
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "rops.h"
+
+ICON        WIN_ROPSTEST .\ROPs.Ico
+
+MENU WIN_ROPSTEST
+BEGIN
+
+    SUBMENU "~File",                   IDM_FILE, MIS_TEXT
+    BEGIN
+        MENUITEM "~Open...",           IDM_OPEN, MIS_TEXT
+    END
+
+    SUBMENU "~Display",                IDM_DISPLAY, MIS_TEXT
+    BEGIN
+        MENUITEM "~Bitmap array",      IDM_BITMAPARRAY, MIS_TEXT
+        MENUITEM "~ROP array",         IDM_ROPARRAY, MIS_TEXT
+        MENUITEM SEPARATOR
+        MENUITEM "~Options...",        IDM_OPTIONS, MIS_TEXT
+    END
+END
+
+DLGTEMPLATE DLG_OPENBITMAP 850
+BEGIN
+    DIALOG "Open Bitmap", DLG_OPENBITMAP, 42, 48, 216, 168, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_SYSMENU
+    BEGIN
+        CONTROL "Select bitmap file to open and view.", -1, 5, 154, 205, 10,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "",                    -1, 5, 100, 205, 56, WC_STATIC,
+                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+        CONTROL "Current path:",       -1, 8, 139, 75, 10, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_DIRECTORY, 84, 139, 120, 10,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Volume:",             -1, 8, 127, 75, 10, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_VOLUMELABEL, 84, 127, 120, 10,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Disk remaining:",     -1, 8, 115, 75, 10, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_DISKFREE, 84, 115, 120, 10, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Number of files:",    -1, 8, 103, 75, 10, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_FILECOUNT, 84, 103, 120, 10,
+                                            WC_STATIC, SS_TEXT | DT_VCENTER |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FOREGROUNDCOLORINDEX, CLR_BLACK
+        CONTROL "Drives:",             -1, 5, 88, 33, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    CBX_DRIVES, 40, 29, 170, 68, WC_COMBOBOX,
+                                            CBS_DROPDOWNLIST | WS_GROUP |
+                                            WS_VISIBLE
+        CONTROL "Directories",         -1, 5, 77, 100, 8, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    LB_DIRECTORIES, 5, 20, 100, 57,
+                                            WC_LISTBOX, LS_HORZSCROLL |
+                                            WS_VISIBLE
+        CONTROL "Files",               -1, 110, 77, 100, 8, WC_STATIC, SS_TEXT |
+                                            DT_CENTER | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    LB_FILES, 110, 20, 100, 57, WC_LISTBOX,
+                                            LS_HORZSCROLL | WS_VISIBLE
+        CONTROL "Open",                DID_OK, 90, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Cancel",              DID_CANCEL, 151, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_VIEWROP 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "View ROP", DLG_VIEWROP, 8, 30, 200, 117, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    BEGIN
+        CONTROL "D - Destination\012S - Source\012P - Pattern\012", -1,
+                                        5, 89, 64, 21, WC_STATIC, SS_TEXT |
+                                            DT_WORDBREAK | WS_VISIBLE
+        CONTROL "o - or\012x - xor\012a - and\012n - not\012", -1,
+                                        5, 67, 43, 25, WC_STATIC, SS_TEXT |
+                                            DT_WORDBREAK | WS_VISIBLE
+        CONTROL "1 1 0 0 1 1 0 0 - Source Byte\0121 1 1 1 0 0 0 0 - Pattern Byte\0121 0 1 0 1 0 1 0 - Destination\012",
+                                       -1, 5, 45, 76, 20, WC_STATIC, SS_TEXT |
+                                            DT_WORDBREAK | WS_VISIBLE
+        CONTROL "~Clear background",   CB_CLEARBACKGROUND, 124, 33, 70, 8,
+                                            WC_BUTTON, BS_AUTOCHECKBOX |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "",                    IT_ROPSELECTED, 5, 35, 78, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+        CONTROL "ROP View:",           -1, 5, 21, 38, 8, WC_STATIC, SS_TEXT |
+                                            DT_RIGHT | DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    IT_ROPVIEW, 45, 21, 60, 8, WC_STATIC,
+                                            SS_TEXT | DT_VCENTER | WS_VISIBLE
+        CONTROL "~B",                  PB_BACKGROUND, 108, 20, 10, 10,
+                                            WC_BUTTON, BS_PUSHBUTTON |
+                                            BS_DEFAULT | WS_GROUP | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~1",                  PB_VIEW1, 119, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~2",                  PB_VIEW2, 130, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~3",                  PB_VIEW3, 141, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~4",                  PB_VIEW4, 152, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~5",                  PB_VIEW5, 163, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~6",                  PB_VIEW6, 174, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "~7",                  PB_VIEW7, 185, 20, 10, 10, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "OK",                  DID_OK, 74, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_GROUP |
+                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "Options...",          DID_OPTIONS, 135, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+    END
+END
+
+DLGTEMPLATE DLG_OPTIONS 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Options", DLG_OPTIONS, 6, 29, 200, 125, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_FONTNAMESIZE, "8.Helv"
+    BEGIN
+        CONTROL "OK",                  DID_OK, 74, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Cancel",              DID_CANCEL, 135, 5, 60, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+        CONTROL "",                    VS_PATTERNS, 5, 76, 190, 33, WC_VALUESET,
+                                            VS_TEXT | WS_TABSTOP | WS_VISIBLE
+                CTLDATA 8, 0, 4, 5
+        CONTROL "Patterns:",           -1, 6, 112, 30, 8, WC_STATIC, SS_TEXT |
+                                            DT_VCENTER | WS_VISIBLE
+        CONTROL "Colours:",            -1, 5, 62, 26, 8, WC_STATIC, SS_TEXT |
+                                            DT_VCENTER | WS_VISIBLE
+        CONTROL "",                    VS_COLOURS, 5, 20, 190, 39, WC_VALUESET,
+                                            VS_COLORINDEX | VS_BORDER |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 8, 0, 3, 6
+    END
+END
+

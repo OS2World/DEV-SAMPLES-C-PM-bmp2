@@ -1,0 +1,6 @@
+C02  ROPs AppDefs GetBmp OpenDlg ROPsWnd Support+
+ViewDlg
+ROPs.Exe
+
+OS2.LIB C2.LIB
+ROPs.Def

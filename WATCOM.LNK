@@ -1,0 +1,15 @@
+file ROPs.Obj
+file AppDefs.Obj
+file GetBmp.Obj
+file OpenDlg.Obj
+file ROPsWnd.Obj
+file Support.Obj
+file ViewDlg.Obj
+name ROPs.Exe
+option modname=ROPs
+format os2 lx pm
+segment class 'code'
+segment class 'data'
+option manyautodata
+option stack=16384
+option protmode
