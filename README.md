@@ -18,4 +18,4 @@ AUTHORS
 
 LINKS
 ===============
-* 
+* http://www.edm2.com/index.php/OS/2_Magazine#Volume_3
